@@ -1,0 +1,294 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: aliyunmanagedmachinepools.infrastructure.cluster.x-k8s.io
+spec:
+  group: infrastructure.cluster.x-k8s.io
+  names:
+    kind: AliyunManagedMachinePool
+    listKind: AliyunManagedMachinePoolList
+    plural: aliyunmanagedmachinepools
+    singular: aliyunmanagedmachinepool
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.ready
+      name: Ready
+      type: string
+    - jsonPath: .status.replicas
+      name: Replicas
+      type: string
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: AliyunManagedMachinePool is the Schema for the aliyunmanagedmachinepools
+          API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AliyunManagedMachinePoolSpec defines the desired state of
+              AliyunManagedMachinePool
+            properties:
+              ackNodePoolName:
+                type: string
+              clusterId:
+                type: string
+              providerIDList:
+                items:
+                  type: string
+                type: array
+              region:
+                type: string
+              resourceGroupId:
+                type: string
+              scalingGroup:
+                properties:
+                  dataDisks:
+                    items:
+                      properties:
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy that
+                            you want to apply to the system disk.
+                          type: string
+                        category:
+                          description: The type of the data disks. Valid values:cloud,
+                            cloud_efficiency, cloud_ssd and cloud_essd.
+                          type: string
+                        device:
+                          description: 'The mount target of data disk N. Valid values
+                            of N: 1 to 16. If you do not specify this parameter, the
+                            system automatically assigns a mount target when Auto
+                            Scaling creates ECS instances. The name of the mount target
+                            ranges from /dev/xvdb to /dev/xvdz.'
+                          type: string
+                        encrypted:
+                          description: 'Specifies whether to encrypt data disks. Valid
+                            values: true and false. Default to false.'
+                          type: string
+                        kmsKeyId:
+                          description: The kms key id used to encrypt the data disk.
+                            It takes effect when encrypted is true.
+                          type: string
+                        name:
+                          description: 'The name of data disk N. Valid values of N:
+                            1 to 16. The name must be 2 to 128 characters in length,
+                            and can contain letters, digits, colons (:), underscores
+                            (_), and hyphens (-). The name must start with a letter
+                            but cannot start with http:// or https://.'
+                          type: string
+                        performanceLevel:
+                          description: Worker node data disk performance level, when
+                            category values cloud_essd, the optional values are PL0,
+                            PL1, PL2 or PL3, but the specific performance level is
+                            related to the disk capacity. For more information, see
+                            Enhanced SSDs. Default is PL1.
+                          type: string
+                        size:
+                          description: The size of a data disk, Its valid value range
+                            [40~32768] in GB. Default to 40.
+                          type: number
+                        snapshotId:
+                          description: 'The ID of the snapshot that you want to use
+                            to create data disk N. Valid values of N: 1 to 16. If
+                            you specify this parameter, DataDisk.N.Size is ignored.
+                            The size of the disk is the same as the size of the specified
+                            snapshot. If you specify a snapshot that is created on
+                            or before July 15, 2013, the operation fails and InvalidSnapshot.TooOld
+                            is returned.'
+                          type: string
+                      type: object
+                    type: array
+                  desiredSize:
+                    type: number
+                  imageType:
+                    type: string
+                  instanceTypes:
+                    items:
+                      type: string
+                    type: array
+                  keyName:
+                    type: string
+                  kubernetesConfig:
+                    properties:
+                      labels:
+                        items:
+                          properties:
+                            key:
+                              description: The label key.
+                              type: string
+                            value:
+                              description: The label value.
+                              type: string
+                          type: object
+                        type: array
+                      runtimeName:
+                        type: string
+                      runtimeVersion:
+                        type: string
+                      tags:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      taints:
+                        items:
+                          properties:
+                            effect:
+                              description: The scheduling policy.
+                              type: string
+                            key:
+                              description: The key of a taint.
+                              type: string
+                            value:
+                              description: The value of a taint.
+                              type: string
+                          type: object
+                        type: array
+                      userData:
+                        type: string
+                    type: object
+                  password:
+                    type: string
+                  securityGroupIds:
+                    items:
+                      type: string
+                    type: array
+                  systemDiskCategory:
+                    type: string
+                  systemDiskPerformanceLevel:
+                    type: string
+                  systemDiskSize:
+                    type: number
+                  vSwitches:
+                    items:
+                      properties:
+                        cidrBlock:
+                          type: string
+                        description:
+                          type: string
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        resourceID:
+                          type: string
+                        uid:
+                          type: string
+                        zoneId:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+            type: object
+          status:
+            description: AliyunManagedMachinePoolStatus defines the observed state
+              of AliyunManagedMachinePool
+            properties:
+              ackNodePoolId:
+                type: string
+              conditions:
+                description: Conditions provide observations of the operational state
+                  of a Cluster API resource.
+                items:
+                  description: Condition defines an observation of a Cluster API resource
+                    operational state.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        Last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed. If that is not known, then using the time when
+                        the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A human readable message indicating details about the transition.
+                        This field may be empty.
+                      type: string
+                    reason:
+                      description: |-
+                        The reason for the condition's last transition in CamelCase.
+                        The specific API may choose whether or not this field is considered a guaranteed API.
+                        This field may not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                        understand the current situation and act accordingly.
+                        The Severity field MUST be set only when Status=False.
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: |-
+                        Type of condition in CamelCase or in foo.example.com/CamelCase.
+                        Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
+                        can be useful (see .node.status.conditions), the ability to deconflict is important.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - status
+                  - type
+                  type: object
+                type: array
+              failureMessage:
+                type: string
+              failureReason:
+                type: string
+              nodeStatus:
+                properties:
+                  desiredNodes:
+                    type: integer
+                  failedNodes:
+                    type: integer
+                  healthyNodes:
+                    type: integer
+                  initialNodes:
+                    type: integer
+                  offlineNodes:
+                    type: integer
+                  removingNodes:
+                    type: integer
+                  removingWaitNodes:
+                    type: integer
+                  servingNodes:
+                    type: integer
+                  spotNodes:
+                    type: integer
+                  totalNodes:
+                    type: integer
+                type: object
+              ready:
+                type: boolean
+              replicas:
+                format: int32
+                type: integer
+              state:
+                type: string
+            required:
+            - replicas
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

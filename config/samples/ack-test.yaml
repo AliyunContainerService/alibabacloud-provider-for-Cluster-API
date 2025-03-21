@@ -1,0 +1,111 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: ack-test
+  namespace: cluster-api-provider-aliyun-system
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+      - 192.168.3.0/24
+    services:
+      cidrBlocks:
+      - 172.16.0.0/16
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+    kind: AliyunManagedControlPlane
+    name: ack-test-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+    kind: AliyunManagedCluster
+    name: ack-test
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AliyunManagedCluster
+metadata:
+  name: ack-test
+  namespace: cluster-api-provider-aliyun-system
+spec: {}
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+kind: AliyunManagedControlPlane
+metadata:
+  name: ack-test-control-plane
+  namespace: cluster-api-provider-aliyun-system
+spec:
+  clusterName: ack-test
+  region: cn-zhangjiakou
+  version: 1.28.9-aliyun.1
+  clusterSpec: ack.pro.small
+  clusterDomain: cluster.local
+  additionalTags:
+    key01: value01
+    key02: value02
+  network:
+    vpc:
+      name: vpc-test
+      cidrBlock: 10.88.0.0/16
+    vSwitches:
+    - name: vsw-test
+      cidrBlock: 10.88.1.0/24
+      zoneId: cn-zhangjiakou-a
+    ## todo: 是否需要移除, 直接从 cluster.spec.clusterNetwork 中获取
+    podCIDR: 192.168.3.0/24
+    serviceCIDR: 172.16.0.0/16
+  addons:
+  - name: logtail-ds
+  ## - name: csi-plugin
+  ## - name: csi-provisioner
+  logging:
+    enable: false
+    components:
+    - apiserver
+    - kcm
+  kubeProxy:
+    proxyMode: ipvs
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachinePool
+metadata:
+  name: ack-test-pool-0
+  namespace: cluster-api-provider-aliyun-system
+spec:
+  clusterName: ack-test
+  replicas: 1
+  template:
+    spec:
+      bootstrap:
+        dataSecretName: ""
+      clusterName: ack-test
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+        kind: AliyunManagedMachinePool
+        name: ack-test-pool-0
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AliyunManagedMachinePool
+metadata:
+  name: ack-test-pool-0
+  namespace: cluster-api-provider-aliyun-system
+spec:
+  clusterId: ""
+  ackNodePoolName: ack-test-pool-0
+  scalingGroup:
+    keyName: general
+    vSwitches:
+    - name: vsw-test-nodepool2
+      cidrBlock: 10.88.2.0/24
+      zoneId: cn-zhangjiakou-a
+    desiredSize: 0
+    instanceTypes:
+    - ecs.u1-c1m2.xlarge
+    - ecs.n1.large
+    - ecs.c5.xlarge
+    systemDiskCategory: cloud_efficiency
+    systemDiskSize: 40
+    kubernetesConfig:
+      tags:
+        tag01: tagvalue01
+      labels:
+      - key: key03
+        value: value03

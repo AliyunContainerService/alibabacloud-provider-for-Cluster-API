@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        args:
+        ## 根据 .vscode 调试文件进行调整.
+        - --poll=60s
+        - --leader-elect=true
+        ## - --credential-namespace=cluster-api-provider-aliyun-system
+        ## - --credential-name=cluster-api-provider-aliyun-aliyun-tf-creds
+        ## - --leader-election-namespace=cluster-api-provider-aliyun-system
+        ## 资源太少的话, terraform apply 会无法执行.
+        resources:
+          limits:
+            cpu: 4
+            memory: 8Gi
+          requests:
+            cpu: 1
+            memory: 1Gi

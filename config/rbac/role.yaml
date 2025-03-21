@@ -1,0 +1,292 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - alibabacloud.alibabacloud.com
+  resources:
+  - providerconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alibabacloud.alibabacloud.com
+  resources:
+  - providerconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alibabacloud.alibabacloud.com
+  resources:
+  - providerconfigs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alibabacloud.alibabacloud.com
+  resources:
+  - providerconfigusages
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alibabacloud.alibabacloud.com
+  resources:
+  - providerconfigusages/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alibabacloud.alibabacloud.com
+  resources:
+  - providerconfigusages/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusters/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - machinepools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - machinepools/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - machinepools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedcontrolplanes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedcontrolplanes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedcontrolplanes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - kubernetesnodepools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - kubernetesnodepools/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - kubernetesnodepools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - managedkubernetes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - managedkubernetes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - managedkubernetes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - vpcs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - vpcs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - vpcs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - vswitches
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - vswitches/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cs.alibabacloud.com
+  resources:
+  - vswitches/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedclusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedclusters/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedclusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedmachinepools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedmachinepools/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmanagedmachinepools/status
+  verbs:
+  - get
+  - patch
+  - update

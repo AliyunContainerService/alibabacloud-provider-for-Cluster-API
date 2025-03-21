@@ -1,0 +1,90 @@
+package v1alpha1
+
+import (
+	"encoding/base64"
+	"fmt"
+	"net/url"
+	"strconv"
+)
+
+type ManagedKubernetesStatusConnection struct {
+	APIServerInternet string `json:"api_server_internet"`
+	APIServerIntranet string `json:"api_server_intranet"`
+	MasterPublicIP    string `json:"master_public_ip"`
+	ServiceDomain     string `json:"service_domain"`
+
+	Host string
+	Port int64
+}
+
+func (c *ManagedKubernetesStatusConnection) Decode(src map[string]*string) (err error) {
+	c.APIServerInternet = *src["api_server_internet"]
+	c.APIServerIntranet = *src["api_server_intranet"]
+	c.MasterPublicIP = *src["master_public_ip"]
+	c.ServiceDomain = *src["service_domain"]
+
+	if c.APIServerInternet == "" {
+		return fmt.Errorf("empty field api_server_internet")
+	}
+
+	endpointInfo, err := url.Parse(c.APIServerInternet)
+	if err != nil {
+		return fmt.Errorf("failed to parse api_server_internet: %+v", src)
+	}
+
+	host, portStr := endpointInfo.Hostname(), endpointInfo.Port()
+	if host == "" || portStr == "" {
+		return fmt.Errorf("empty host or port: %+v", src)
+	}
+
+	port, err := strconv.ParseInt(portStr, 10, 64)
+	if err != nil {
+		return fmt.Errorf("failed to parse port: %+v", src)
+	}
+
+	c.Host, c.Port = host, port
+	return
+}
+
+type CertificateAuthority struct {
+	ClusterCertStr string `json:"cluster_cert"`
+	ClientCertStr  string `json:"client_cert"`
+	ClientKeyStr   string `json:"client_key"`
+
+	ClusterCert []byte
+	ClientCert  []byte
+	ClientKey   []byte
+}
+
+func (c *CertificateAuthority) Decode(src map[string]*string) (err error) {
+	if src == nil {
+		return fmt.Errorf("empty block CertificateAuthority")
+	}
+	c.ClusterCertStr = *src["cluster_cert"]
+	c.ClientCertStr = *src["client_cert"]
+	c.ClientKeyStr = *src["client_key"]
+	if c.ClusterCertStr == "" {
+		return fmt.Errorf("empty field cluster_cert")
+	}
+	if c.ClientCertStr == "" {
+		return fmt.Errorf("empty field client_cert")
+	}
+	if c.ClientKeyStr == "" {
+		return fmt.Errorf("empty field client_key")
+	}
+
+	c.ClusterCert, err = base64.StdEncoding.DecodeString(c.ClusterCertStr)
+	if err != nil {
+		return fmt.Errorf("decoding cluster CA cert: %w", err)
+	}
+	c.ClientCert, err = base64.StdEncoding.DecodeString(c.ClientCertStr)
+	if err != nil {
+		return fmt.Errorf("decoding cluster CA cert: %w", err)
+	}
+	c.ClientKey, err = base64.StdEncoding.DecodeString(c.ClientKeyStr)
+	if err != nil {
+		return fmt.Errorf("decoding cluster CA cert: %w", err)
+	}
+
+	return
+}

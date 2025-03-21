@@ -1,0 +1,12 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AliyunManagedMachinePool
+metadata:
+  labels:
+    app.kubernetes.io/name: aliyunmanagedmachinepool
+    app.kubernetes.io/instance: aliyunmanagedmachinepool-sample
+    app.kubernetes.io/part-of: cluster-api-provider-aliyun
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: cluster-api-provider-aliyun
+  name: aliyunmanagedmachinepool-sample
+spec:
+  # TODO(user): Add fields here

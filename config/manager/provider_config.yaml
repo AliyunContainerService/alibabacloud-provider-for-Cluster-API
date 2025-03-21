@@ -1,0 +1,31 @@
+## 默认情况下 ManagedKubernetes, KubernetesNodePool 会引用如下 ProviderConfig, 
+## ProviderConfig 引用一个 Secret, 阿里云平台的认证信息都存在这个 Secret 中.
+## 进入多 region 改造后(原本一个 ProviderConfig 只能作用于一个 region),
+## 不再需要预先准备 ProviderConfig 了, 只要准备好 Secret 即可.
+##
+## apiVersion: alibabacloud.alibabacloud.com/v1beta1
+## kind: ProviderConfig
+## metadata:
+##   name: default
+##   namespace: default
+## spec:
+##   credentials:
+##     source: Secret
+##     secretRef:
+##       name: aliyun-tf-creds
+##       namespace: default
+##       key: credentials
+## 
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aliyun-tf-creds
+  namespace: system
+type: Opaque
+stringData:
+  credentials: |
+    {
+      "access_key": "",
+      "secret_key": "",
+    }
