@@ -20,7 +20,7 @@ The project allows customization of ACK cluster configurations, including node c
 
 ---
 
-## Code Compilation
+### Code Compilation
 
 ```bash
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o bin/manager cmd/main.go
@@ -54,7 +54,7 @@ make docker-build
 NAME                                                              READY   STATUS    RESTARTS   AGE
 cluster-api-provider-aliyun-controller-manager-549c649467-h9sfq   2/2     Running   0          125m
 ```
-### Usage
+## Usage
 Create a Test Cluster
 ```bash
 kubectl apply -f config/samples/ack-test.yaml
@@ -90,14 +90,14 @@ clusters:
 ## Omitted for brevity
 ```
 
-### License
+## License
 alibabacloud-provider-for-Cluster-API is a Cluster API provider developed by Alibaba Cloud and licensed under the Apache License (Version 2.0)
 This product contains various third-party components under other open source licenses.
 See the NOTICE file for more information.
 
 --- 
 
-本项目基于[Terraform](https://developer.hashicorp.com/terraform) 工具，遵循[Cluster API](https://cluster-api.sigs.k8s.io/introduction) 规范，在阿里云平台上实现了创建和删除 ACK 托管集群的功能。
+本项目基于[Terraform](https://developer.hashicorp.com/terraform) 和[Crossplane Upjet](https://github.com/crossplane/upjet)工具，遵循[Cluster API](https://cluster-api.sigs.k8s.io/introduction) 规范，在阿里云平台上实现了创建和删除 ACK 托管集群的功能。
 
 该项目支持自定义 ACK 集群配置，包括节点数量、机型等参数的设置。用户可以根据实际需求，灵活配置 ACK 集群的规模和性能。
 
