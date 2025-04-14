@@ -1,5 +1,5 @@
 /*
-Copyright 2024.
+Copyright (c) 2024-2025, Alibaba Cloud and its affiliates;
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -115,10 +115,10 @@ type AliyunManagedControlPlaneStatusNetwork struct {
 
 // 自定义信息展示列: 所属 Cluster 名称, Ready 状态.
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
-//+kubebuilder:printcolumn:name="Cluster",type=string,JSONPath=`.metadata.labels.cluster\.x-k8s\.io/cluster-name`
-//+kubebuilder:printcolumn:name="Ready",type=string,JSONPath=`.status.ready`
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Cluster",type=string,JSONPath=`.metadata.labels.cluster\.x-k8s\.io/cluster-name`
+// +kubebuilder:printcolumn:name="Ready",type=string,JSONPath=`.status.ready`
 //
 // AliyunManagedControlPlane is the Schema for the aliyunmanagedcontrolplanes API
 type AliyunManagedControlPlane struct {

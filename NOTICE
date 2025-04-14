@@ -1,0 +1,19 @@
+alibabacloud-provider-for-Cluster-API is developed by Alibaba Cloud and based on the Terraform and Crossplane Upjet project
+Copyright (c) 2024-2025, Alibaba Cloud and its affiliates.
+Licensed under the Apache License, Version 2.0
+
+===================================================================
+
+This product contains various third-party components under other open source licenses.
+This section summarizes those components and their licenses.
+
+Apache Software Foundation License 2.0
+--------------------------------------
+https://github.com/crossplane/upjet.git
+Copyright 2023 The Crossplane Authors <https://crossplane.io>
+Licensed under the Apache License, Version 2.0
+
+Mozilla Public License Version 2.0
+----------------------------------
+https://github.com/aliyun/terraform-provider-alicloud.git
+Licensed under the Mozilla Public License, v. 2.0
