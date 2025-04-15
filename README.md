@@ -1,6 +1,6 @@
 # alibabacloud-provider-for-Cluster-API
 
-This project is based on the [Terraform](https://developer.hashicorp.com/terraform) and [Crossplane Upjet](https://github.com/crossplane/upjet) tool and follows the [Cluster API](https://cluster-api.sigs.k8s.io/introduction) specification. It implements the creation and deletion of ACK (Alibaba Cloud Kubernetes Service) managed clusters on the Alibaba Cloud platform.
+This project is a Cluster API provider developed by Alibaba Cloud following the [Cluster API](https://cluster-api.sigs.k8s.io/introduction) specification. It implements the creation and deletion of ACK (Alibaba Cloud Kubernetes Service) managed clusters on the Alibaba Cloud platform.
 
 The project allows customization of ACK cluster configurations, including node counts, machine types, and other parameters. Users can flexibly configure the scale and performance of ACK clusters according to their needs.
 
@@ -97,7 +97,7 @@ See the NOTICE file for more information.
 
 --- 
 
-本项目基于[Terraform](https://developer.hashicorp.com/terraform) 和[Crossplane Upjet](https://github.com/crossplane/upjet)工具，遵循[Cluster API](https://cluster-api.sigs.k8s.io/introduction) 规范，在阿里云平台上实现了创建和删除 ACK 托管集群的功能。
+本项目是由阿里云开发的Cluster API Provider实现，遵循[Cluster API](https://cluster-api.sigs.k8s.io/introduction) 规范，在阿里云平台上实现了创建和删除 ACK 托管集群的功能。
 
 该项目支持自定义 ACK 集群配置，包括节点数量、机型等参数的设置。用户可以根据实际需求，灵活配置 ACK 集群的规模和性能。
 
