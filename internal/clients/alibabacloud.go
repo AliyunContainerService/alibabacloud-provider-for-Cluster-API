@@ -15,7 +15,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/terraform"
 
-	"cluster-api-provider-aliyun/api/alibabacloud/v1beta1"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/alibabacloud/v1beta1"
 )
 
 const (

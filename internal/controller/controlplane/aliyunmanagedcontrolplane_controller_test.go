@@ -27,7 +27,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
 )
 
 var _ = Describe("AliyunManagedControlPlane Controller", func() {

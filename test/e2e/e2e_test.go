@@ -24,7 +24,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"cluster-api-provider-aliyun/test/utils"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/test/utils"
 )
 
 const namespace = "cluster-api-provider-aliyun-system"

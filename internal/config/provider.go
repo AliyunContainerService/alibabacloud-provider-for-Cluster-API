@@ -8,7 +8,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
-	"cluster-api-provider-aliyun/internal/config/cs"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/config/cs"
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 )
 

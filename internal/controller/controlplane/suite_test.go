@@ -32,7 +32,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
 	//+kubebuilder:scaffold:imports
 )
 

@@ -28,10 +28,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
-	machinepoolv1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
-	"cluster-api-provider-aliyun/internal/common"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	machinepoolv1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/common"
 )
 
 // indexAliyunPoolByUID Indexer 索引器, 通过 uid 信息找到 aliyunPool 资源.

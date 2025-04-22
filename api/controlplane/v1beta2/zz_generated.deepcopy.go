@@ -21,8 +21,8 @@ limitations under the License.
 package v1beta2
 
 import (
-	"cluster-api-provider-aliyun/api/common"
-	"cluster-api-provider-aliyun/api/cs/v1alpha1"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/common"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/cluster-api/api/v1beta1"
 )

@@ -11,7 +11,7 @@ import (
 	"github.com/crossplane/upjet/pkg/controller"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"cluster-api-provider-aliyun/api/alibabacloud/v1beta1"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/alibabacloud/v1beta1"
 )
 
 // 手动添加 ProviderConfig, ProviderConfigUsage 的权限列表

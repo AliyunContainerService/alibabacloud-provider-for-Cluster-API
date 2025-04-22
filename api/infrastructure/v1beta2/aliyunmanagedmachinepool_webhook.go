@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
-	commonapi "cluster-api-provider-aliyun/api/common"
+	commonapi "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/common"
 )
 
 // log is for logging in this package.

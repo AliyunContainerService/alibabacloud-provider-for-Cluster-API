@@ -30,8 +30,8 @@ import (
 	"k8s.io/utils/ptr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	commonapi "cluster-api-provider-aliyun/api/common"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
+	commonapi "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/common"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
 )
 
 // reconcileVPC ...

@@ -16,9 +16,9 @@
 package infrastructure
 
 import (
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	infrastructurev1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
 	"context"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	infrastructurev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
 
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"

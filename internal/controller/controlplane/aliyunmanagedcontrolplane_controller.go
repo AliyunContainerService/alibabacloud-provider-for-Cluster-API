@@ -40,10 +40,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 
-	alibabacloudv1beta1 "cluster-api-provider-aliyun/api/alibabacloud/v1beta1"
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
-	"cluster-api-provider-aliyun/internal/common"
+	alibabacloudv1beta1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/alibabacloud/v1beta1"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/common"
 )
 
 // AliyunManagedControlPlaneReconciler reconciles a AliyunManagedControlPlane object

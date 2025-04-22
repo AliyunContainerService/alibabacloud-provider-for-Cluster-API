@@ -49,12 +49,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	"cluster-api-provider-aliyun/api/alibabacloud/v1beta1"
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
-	machinepoolv1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
-	"cluster-api-provider-aliyun/internal/clients"
-	"cluster-api-provider-aliyun/internal/common"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/alibabacloud/v1beta1"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	machinepoolv1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/clients"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/common"
 )
 
 // AliyunManagedMachinePoolReconciler reconciles a AliyunManagedMachinePool object

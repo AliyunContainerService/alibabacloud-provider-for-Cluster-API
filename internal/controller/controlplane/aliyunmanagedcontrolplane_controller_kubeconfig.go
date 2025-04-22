@@ -32,8 +32,8 @@ import (
 	"sigs.k8s.io/cluster-api/util/secret"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
 )
 
 // reconcileKubeconfig 创建内容为 kubeconfig 的 secret 资源, 并设置 control plane 资源的 .Status.Initialized 字段.

@@ -25,9 +25,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 
-	"cluster-api-provider-aliyun/api/cs/v1alpha1"
-	machinepoolv1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
-	"cluster-api-provider-aliyun/internal/common"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	machinepoolv1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/common"
 )
 
 // indexVSwitchByAliyunPoolUID Indexer 索引器, 通过 aliyunPool uid 找到其子级的 vswitch 资源.

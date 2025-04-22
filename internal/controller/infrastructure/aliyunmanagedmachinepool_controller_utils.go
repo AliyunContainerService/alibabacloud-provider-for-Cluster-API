@@ -31,8 +31,8 @@ import (
 	expclusterv1 "sigs.k8s.io/cluster-api/exp/api/v1beta1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
-	machinepoolv1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	machinepoolv1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
 )
 
 // getOwnerMachinePool 查询目标资源 obj (aliyunPool)的 MachinePool 属主并返回.

@@ -28,9 +28,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	alibabacloudv1beta1 "cluster-api-provider-aliyun/api/alibabacloud/v1beta1"
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	"cluster-api-provider-aliyun/internal/clients"
+	alibabacloudv1beta1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/alibabacloud/v1beta1"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/clients"
 )
 
 type CredentialSecret struct {

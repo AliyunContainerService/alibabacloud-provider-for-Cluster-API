@@ -20,8 +20,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 
-	commonapi "cluster-api-provider-aliyun/api/common"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
+	commonapi "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/common"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!

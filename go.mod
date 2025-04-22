@@ -1,4 +1,4 @@
-module cluster-api-provider-aliyun
+module github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API
 
 go 1.23.0
 

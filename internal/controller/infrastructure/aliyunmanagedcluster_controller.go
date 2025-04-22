@@ -29,8 +29,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
-	controlplanev1beta2 "cluster-api-provider-aliyun/api/controlplane/v1beta2"
-	infrastructurev1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
+	controlplanev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/controlplane/v1beta2"
+	infrastructurev1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
 )
 
 // AliyunManagedClusterReconciler reconciles a AliyunManagedCluster object

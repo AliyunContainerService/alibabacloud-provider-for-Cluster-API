@@ -24,8 +24,8 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
-	features "cluster-api-provider-aliyun/internal/features"
+	v1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	features "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/features"
 )
 
 // 手动添加 VPC 的权限列表

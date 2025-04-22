@@ -29,10 +29,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	"cluster-api-provider-aliyun/api/cs/v1alpha1"
-	csv1alpha1 "cluster-api-provider-aliyun/api/cs/v1alpha1"
-	machinepoolv1beta2 "cluster-api-provider-aliyun/api/infrastructure/v1beta2"
-	"cluster-api-provider-aliyun/internal/common"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	csv1alpha1 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/cs/v1alpha1"
+	machinepoolv1beta2 "github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/api/infrastructure/v1beta2"
+	"github.com/AliyunContainerService/alibabacloud-provider-for-Cluster-API/internal/common"
 )
 
 const (
