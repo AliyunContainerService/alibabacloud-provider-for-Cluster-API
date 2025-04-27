@@ -305,8 +305,7 @@ func (r *AliyunManagedControlPlaneReconciler) reconcileManagedKubernetes(
 					ResourceGroupID:    &aliyunControlPlane.Spec.ResourceGroup,
 					DeletionProtection: &aliyunControlPlane.Spec.DeletionProtection,
 
-					// todo:
-					// Public: aliyunControlPlane.Spec.Network.EndpointAccess.Public,
+					SlbInternetEnabled: &aliyunControlPlane.Spec.EndpointAccess.Public,
 				},
 			},
 		}

@@ -33,16 +33,31 @@ type ManagedKubernetesStatusConnection struct {
 }
 
 func (c *ManagedKubernetesStatusConnection) Decode(src map[string]*string) (err error) {
-	c.APIServerInternet = *src["api_server_internet"]
-	c.APIServerIntranet = *src["api_server_intranet"]
-	c.MasterPublicIP = *src["master_public_ip"]
-	c.ServiceDomain = *src["service_domain"]
+	if src == nil {
+		return fmt.Errorf("empty block ManagedKubernetesStatusConnection")
+	}
+	if _, ok := src["api_server_internet"]; ok {
+		c.APIServerInternet = *src["api_server_internet"]
+	}
+	if _, ok := src["api_server_intranet"]; ok {
+		c.APIServerIntranet = *src["api_server_intranet"]
+	}
+	if _, ok := src["master_public_ip"]; ok {
+		c.MasterPublicIP = *src["master_public_ip"]
+	}
+	if _, ok := src["service_domain"]; ok {
+		c.ServiceDomain = *src["service_domain"]
+	}
+	apiServer := c.APIServerInternet
 
 	if c.APIServerInternet == "" {
-		return fmt.Errorf("empty field api_server_internet")
+		if c.APIServerIntranet == "" {
+			return fmt.Errorf("empty field api_server_internet and api_server_intranet")
+		}
+		apiServer = c.APIServerIntranet
 	}
 
-	endpointInfo, err := url.Parse(c.APIServerInternet)
+	endpointInfo, err := url.Parse(apiServer)
 	if err != nil {
 		return fmt.Errorf("failed to parse api_server_internet: %+v", src)
 	}
@@ -75,9 +90,15 @@ func (c *CertificateAuthority) Decode(src map[string]*string) (err error) {
 	if src == nil {
 		return fmt.Errorf("empty block CertificateAuthority")
 	}
-	c.ClusterCertStr = *src["cluster_cert"]
-	c.ClientCertStr = *src["client_cert"]
-	c.ClientKeyStr = *src["client_key"]
+	if _, ok := src["cluster_cert"]; ok {
+		c.ClusterCertStr = *src["cluster_cert"]
+	}
+	if _, ok := src["client_cert"]; ok {
+		c.ClientCertStr = *src["client_cert"]
+	}
+	if _, ok := src["client_key"]; ok {
+		c.ClientKeyStr = *src["client_key"]
+	}
 	if c.ClusterCertStr == "" {
 		return fmt.Errorf("empty field cluster_cert")
 	}
