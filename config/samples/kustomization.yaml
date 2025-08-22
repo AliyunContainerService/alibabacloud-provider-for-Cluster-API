@@ -3,4 +3,5 @@ resources:
 - infrastructure_v1beta2_aliyunmanagedcluster.yaml
 - controlplane_v1beta2_aliyunmanagedcontrolplane.yaml
 - infrastructure_v1beta2_aliyunmanagedmachinepool.yaml
+- infrastructure_v1beta2_aliyunmachinepool.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples

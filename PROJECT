@@ -44,4 +44,22 @@ resources:
     defaulting: true
     validation: true
     webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: cluster.x-k8s.io
+  group: infrastructure
+  kind: AliyunMachinePool
+  path: cluster-api-provider-aliyun/api/infrastructure/v1beta2
+  version: v1beta2
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: cluster.x-k8s.io
+  group: infrastructure
+  kind: AliyunCluster
+  path: cluster-api-provider-aliyun/api/infrastructure/v1beta2
+  version: v1beta2
 version: "3"

@@ -15,6 +15,7 @@
 
 package v1beta2
 
+// 补充 CAPI 需要的一些特定的方法
 import (
 	"regexp"
 	"strings"
@@ -22,6 +23,36 @@ import (
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 )
+
+// GetConditions returns the observations of the operational state of the AliyunMachinePool resource.
+func (r *AliyunCluster) GetConditions() clusterv1.Conditions {
+	return r.Status.Conditions
+}
+
+// SetConditions sets the underlying service state of the AliyunMachinePool to the predescribed clusterv1.Conditions.
+func (r *AliyunCluster) SetConditions(conditions clusterv1.Conditions) {
+	r.Status.Conditions = conditions
+}
+
+// GetConditions returns the observations of the operational state of the AliyunMachinePool resource.
+func (r *AliyunMachine) GetConditions() clusterv1.Conditions {
+	return r.Status.Conditions
+}
+
+// SetConditions sets the underlying service state of the AliyunMachinePool to the predescribed clusterv1.Conditions.
+func (r *AliyunMachine) SetConditions(conditions clusterv1.Conditions) {
+	r.Status.Conditions = conditions
+}
+
+// GetConditions returns the observations of the operational state of the AliyunMachinePool resource.
+func (r *AliyunMachinePool) GetConditions() clusterv1.Conditions {
+	return r.Status.Conditions
+}
+
+// SetConditions sets the underlying service state of the AliyunMachinePool to the predescribed clusterv1.Conditions.
+func (r *AliyunMachinePool) SetConditions(conditions clusterv1.Conditions) {
+	r.Status.Conditions = conditions
+}
 
 // GetConditions returns the observations of the operational state of the AliyunManagedMachinePool resource.
 func (r *AliyunManagedMachinePool) GetConditions() clusterv1.Conditions {

@@ -1,0 +1,163 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: rke2-aliyun-demo
+  namespace: default
+spec:
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+    kind: AliyunCluster
+    name: rke2-aliyun-demo
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: RKE2ControlPlane
+    name: rke2-aliyun-cp
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AliyunCluster
+metadata:
+  name: rke2-aliyun-demo
+  namespace: default
+  labels:
+    cluster.x-k8s.io/cluster-name: rke2-aliyun-demo
+spec:
+  regionId:     cn-hongkong
+  addressType:  Internet
+  vpcId:        vpc-j6ctujlcrgdper58tctny
+  port:         6443
+  ZoneMappings:
+    - vSwitchId: vsw-j6c0s3mgm8izzos9p6ub4
+      zoneId:    cn-hongkong-b
+    - vSwitchId: vsw-j6cagk6qk7nj807k6akvl
+      zoneId:    cn-hongkong-d
+  Listeners:
+    - listenerProtocol: TCP
+      listenerPort:     "6443"
+      vpcId:            vpc-j6ctujlcrgdper58tctny
+    - listenerProtocol: TCP
+      listenerPort:     "9345"
+      vpcId:            vpc-j6ctujlcrgdper58tctny
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AliyunMachineTemplate
+metadata:
+  name: rke2-aliyun-cp-tpl
+  namespace: default
+spec:
+  template:
+    metadata: {}
+    spec:
+      regionId: cn-hongkong
+      vSwitchId: vsw-j6cagk6qk7nj807k6akvl
+      securityGroupIds:
+        - sg-j6c4ta3knarzeuxmcjon
+      instanceType: ecs.c6e.large
+      instanceChargeType: PostPaid
+      internetChargeType: PayByTraffic
+      imageId: ubuntu_22_04_x64_20G_alibase_20250722.vhd
+      internetMaxBandwidthIn: 50
+      internetMaxBandwidthOut: 50
+      keyName: wangsiye
+      systemDisk:
+        category: cloud_essd
+        size: 50
+
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: RKE2ControlPlane
+metadata:
+  name: rke2-aliyun-cp
+  namespace: default
+spec:
+  agentConfig:
+    kubelet:
+      extraArgs:
+        - --cloud-provider=external
+        - --provider-id=alicloud://{{ v1.instance_id }}
+  rolloutStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+  replicas: 1
+  version: v1.29.8+rke2r1
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+      kind: AliyunMachineTemplate
+      name: rke2-aliyun-cp-tpl
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AliyunMachineTemplate
+metadata:
+  name: rke2-aliyun-md0-tpl
+  namespace: default
+  labels:
+    cluster.x-k8s.io/cluster-name: rke2-aliyun-demo
+spec:
+  template:
+    metadata: {}
+    spec:
+      regionId: cn-hongkong
+      vSwitchId: vsw-j6cagk6qk7nj807k6akvl
+      securityGroupIds:
+        - sg-j6c4ta3knarzeuxmcjon
+      instanceType: ecs.c6e.large
+      imageId: ubuntu_22_04_x64_20G_alibase_20250722.vhd
+      instanceChargeType: PostPaid
+      internetChargeType: PayByTraffic
+      internetMaxBandwidthIn: 50
+      internetMaxBandwidthOut: 50
+      keyName: wangsiye
+      systemDisk:
+        category: cloud_essd
+        size: 50
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: RKE2ConfigTemplate
+metadata:
+  name: rke2-aliyun-md0-bootstrap
+  namespace: default
+  labels:
+    cluster.x-k8s.io/cluster-name: rke2-aliyun-demo
+spec:
+  template:
+    spec:
+      agentConfig:
+        kubelet:
+          extraArgs:
+            - --cloud-provider=external
+            - --provider-id=alicloud://{{ v1.instance_id }}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: rke2-aliyun-md-0
+  namespace: default
+  labels:
+    cluster.x-k8s.io/cluster-name: rke2-aliyun-demo
+spec:
+  clusterName: rke2-aliyun-demo
+  replicas: 1
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: rke2-aliyun-demo
+      pool: md-0
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: rke2-aliyun-demo
+        pool: md-0
+    spec:
+      clusterName: rke2-aliyun-demo
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: RKE2ConfigTemplate
+          name: rke2-aliyun-md0-bootstrap
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+        kind: AliyunMachineTemplate
+        name: rke2-aliyun-md0-tpl
+      version: v1.29.8+rke2r1

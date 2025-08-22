@@ -34,8 +34,8 @@ metadata:
   namespace: cluster-api-provider-aliyun-system
 spec:
   clusterName: ack-test
-  region: cn-zhangjiakou
-  version: 1.28.9-aliyun.1
+  region: cn-hangzhou
+  version: 1.31.9-aliyun.1
   clusterSpec: ack.pro.small
   clusterDomain: cluster.local
   additionalTags:
@@ -48,7 +48,7 @@ spec:
     vSwitches:
     - name: vsw-test
       cidrBlock: 10.88.1.0/24
-      zoneId: cn-zhangjiakou-a
+      zoneId: cn-hangzhou-i
     ## todo: 是否需要移除, 直接从 cluster.spec.clusterNetwork 中获取
     podCIDR: 192.168.3.0/24
     serviceCIDR: 172.16.0.0/16
@@ -63,6 +63,8 @@ spec:
     - kcm
   kubeProxy:
     proxyMode: ipvs
+  endpointAccess:
+    public: true
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachinePool
@@ -95,13 +97,11 @@ spec:
     vSwitches:
     - name: vsw-test-nodepool2
       cidrBlock: 10.88.2.0/24
-      zoneId: cn-zhangjiakou-a
-    desiredSize: 0
+      zoneId: cn-hangzhou-i
+    desiredSize: 1
     instanceTypes:
-    - ecs.u1-c1m2.xlarge
-    - ecs.n1.large
-    - ecs.c5.xlarge
-    systemDiskCategory: cloud_efficiency
+    - ecs.c6e.xlarge
+    systemDiskCategory: cloud_essd
     systemDiskSize: 40
     kubernetesConfig:
       tags:

@@ -38,3 +38,9 @@ const (
 	WaitingForAliyunManagedControlPlaneReason        string                  = "WaitingForAliyunManagedControlPlane"
 	SetupSDKClientFailedReason                       string                  = "SetupSDKClientFailed"
 )
+
+const (
+	ScalingGroupReadyCondition                 clusterv1.ConditionType = "ScalingGroupReady"
+	ScalingConfigurationReadyCondition         clusterv1.ConditionType = "ScalingConfigurationReady"
+	ScalingConfigurationInstanceReadyCondition clusterv1.ConditionType = "ScalingConfigurationInstanceReady"
+)

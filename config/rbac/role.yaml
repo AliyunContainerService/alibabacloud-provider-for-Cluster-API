@@ -5,6 +5,17 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - alibabacloud.alibabacloud.com
   resources:
   - providerconfigs
@@ -52,6 +63,38 @@ rules:
   - alibabacloud.alibabacloud.com
   resources:
   - providerconfigusages/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - alicloud.alibabacloud.com
+  resources:
+  - instances
+  - listeners
+  - servergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - alicloud.alibabacloud.com
+  resources:
+  - instances/finalizers
+  - listeners/finalizers
+  - servergroups/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - alicloud.alibabacloud.com
+  resources:
+  - instances/status
+  - listeners/status
+  - servergroups/status
   verbs:
   - get
   - patch
@@ -108,6 +151,14 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - machines
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - controlplane.cluster.x-k8s.io
   resources:
@@ -241,6 +292,110 @@ rules:
 - apiGroups:
   - infrastructure.cluster.x-k8s.io
   resources:
+  - aliyunclusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunclusters/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunclusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachinepools
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachinepools/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachinepools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachines
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachines/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachines/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachinetemplates
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachinetemplates/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - aliyunmachinetemplates/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
   - aliyunmanagedclusters
   verbs:
   - create
@@ -286,6 +441,38 @@ rules:
   - infrastructure.cluster.x-k8s.io
   resources:
   - aliyunmanagedmachinepools/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - nlb.alibabacloud.com
+  resources:
+  - listeners
+  - loadbalancers
+  - servergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - nlb.alibabacloud.com
+  resources:
+  - listeners/finalizers
+  - loadbalancers/finalizers
+  - servergroups/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - nlb.alibabacloud.com
+  resources:
+  - listeners/status
+  - loadbalancers/status
+  - servergroups/status
   verbs:
   - get
   - patch

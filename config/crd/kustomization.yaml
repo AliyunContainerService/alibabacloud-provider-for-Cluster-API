@@ -5,6 +5,21 @@ resources:
 - bases/infrastructure.cluster.x-k8s.io_aliyunmanagedclusters.yaml
 - bases/controlplane.cluster.x-k8s.io_aliyunmanagedcontrolplanes.yaml
 - bases/infrastructure.cluster.x-k8s.io_aliyunmanagedmachinepools.yaml
+- bases/alibabacloud.alibabacloud.com_providerconfigs.yaml
+- bases/alibabacloud.alibabacloud.com_providerconfigusages.yaml
+- bases/alibabacloud.alibabacloud.com_storeconfigs.yaml
+- bases/cs.alibabacloud.com_kubernetesnodepools.yaml
+- bases/cs.alibabacloud.com_managedkubernetes.yaml
+- bases/cs.alibabacloud.com_vpcs.yaml
+- bases/cs.alibabacloud.com_vswitches.yaml
+- bases/infrastructure.cluster.x-k8s.io_aliyunmachinepools.yaml
+- bases/infrastructure.cluster.x-k8s.io_aliyunmachines.yaml
+- bases/infrastructure.cluster.x-k8s.io_aliyunmachinetemplates.yaml
+- bases/alicloud.alibabacloud.com_instances.yaml
+- bases/infrastructure.cluster.x-k8s.io_aliyunclusters.yaml
+- bases/nlb.alibabacloud.com_listeners.yaml
+- bases/nlb.alibabacloud.com_loadbalancers.yaml
+- bases/nlb.alibabacloud.com_servergroups.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patches:
@@ -38,6 +53,9 @@ patches:
 - path: patches/capi_in_controlplane_aliyunmanagedcontrolplanes.yaml
 - path: patches/capi_in_infrastructure_aliyunmanagedmachinepools.yaml
 - path: patches/capi_in_infrastructure_aliyunmanagedclusters.yaml
+- path: patches/capi_in_infrastructure_aliyunmachines.yaml
+- path: patches/capi_in_infrastructure_aliyunmachinetemplates.yaml
+- path: patches/capi_in_infrastructure_aliyunclusters.yaml
 
 configurations:
 - kustomizeconfig.yaml

@@ -17,11 +17,14 @@ package clients
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	ess20220222 "github.com/alibabacloud-go/ess-20220222/v2/client"
+	nlb "github.com/alibabacloud-go/nlb-20220430/v4/client"
 	"github.com/alibabacloud-go/tea/tea"
 	"github.com/pkg/errors"
 )
@@ -121,4 +124,29 @@ func CreateSDKClient(regionID string) (result *ess20220222.Client, err error) {
 	result = &ess20220222.Client{}
 	result, err = ess20220222.NewClient(config)
 	return result, err
+}
+
+func nlbEndpointForRegion(region string) string {
+	r := strings.TrimSpace(strings.ToLower(region))
+	if r == "" {
+		return "nlb.cn-hangzhou.aliyuncs.com"
+	}
+	return fmt.Sprintf("nlb.%s.aliyuncs.com", r)
+}
+
+func CreateNlbSDKClient(regionID string) (*nlb.Client, error) {
+	if regionID == "" {
+		regionID = AliyunCreds.Region
+	}
+	if regionID == "" {
+		return nil, fmt.Errorf("regionID is empty")
+	}
+	cfg := &openapi.Config{
+		AccessKeyId:     tea.String(AliyunCreds.AccessKey),
+		AccessKeySecret: tea.String(AliyunCreds.SecretKey),
+		RegionId:        tea.String(regionID),
+		Endpoint:        tea.String(nlbEndpointForRegion(regionID)),
+	}
+
+	return nlb.NewClient(cfg)
 }

@@ -1,0 +1,248 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: aliyunmachines.infrastructure.cluster.x-k8s.io
+spec:
+  group: infrastructure.cluster.x-k8s.io
+  names:
+    categories:
+    - cluster-api
+    kind: AliyunMachine
+    listKind: AliyunMachineList
+    plural: aliyunmachines
+    shortNames:
+    - alim
+    - alimc
+    singular: aliyunmachine
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.providerID
+      name: PROVIDERID
+      priority: 1
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: |-
+              AliyunMachineSpec —— 你的控制器会把这些字段映射到 Upjet ecs.Instance.spec.forProvider
+              以及把 Bootstrap 的 userData Secret 透传为 Upjet 的 user_data。
+            properties:
+              dataDisks:
+                description: 数据盘配置
+                items:
+                  description: DataDiskSpec（可选）映射 InstanceParameters.data_disks[*]
+                  properties:
+                    category:
+                      type: string
+                    deleteWithInstance:
+                      type: boolean
+                    description:
+                      type: string
+                    device:
+                      type: string
+                    encrypted:
+                      type: boolean
+                    kmsKeyId:
+                      type: string
+                    name:
+                      type: string
+                    performanceLevel:
+                      type: string
+                    size:
+                      format: int32
+                      type: integer
+                    snapshotId:
+                      type: string
+                  type: object
+                type: array
+              imageId:
+                description: 镜像 ID（如公共镜像/自定义镜像）
+                type: string
+              instanceChargeType:
+                description: 计费类型：PostPaid / PrePaid（不写默认 PostPaid）
+                type: string
+              instanceType:
+                description: 实例规格
+                type: string
+              internetChargeType:
+                description: 计费类型：PayByBandwidth / PayByTraffic（不写默认 PayByTraffic）
+                type: string
+              internetMaxBandwidthIn:
+                description: 公网入带宽
+                format: int32
+                type: integer
+              internetMaxBandwidthOut:
+                description: |-
+                  公网出带宽，Mbps。为 0 表示仅私网
+                  对应 InstanceParameters.InternetMaxBandwidthOut
+                format: int32
+                type: integer
+              keyName:
+                description: 登录密钥对名称（设置后通常禁用密码登录）
+                type: string
+              privateIp:
+                description: 可选：实例私网 IP（不指定则自动分配）
+                type: string
+              providerID:
+                type: string
+              regionId:
+                description: 地域，如 cn-hangzhou
+                type: string
+              securityGroupIds:
+                description: |-
+                  安全组 ID 列表
+                  对应 InstanceParameters.SecurityGroups
+                items:
+                  type: string
+                type: array
+              systemDisk:
+                description: |-
+                  ---------------- 磁盘 ----------------
+                  系统盘配置
+                properties:
+                  autoSnapshotPolicyId:
+                    type: string
+                  category:
+                    description: |-
+                      类别：cloud_efficiency / cloud_ssd / cloud_essd / cloud_auto ...
+                      对应 InstanceParameters.SystemDiskCategory
+                    type: string
+                  description:
+                    type: string
+                  encryptAlgorithm:
+                    type: string
+                  encrypted:
+                    description: 是否加密/算法/KMS
+                    type: boolean
+                  kmsKeyId:
+                    type: string
+                  name:
+                    type: string
+                  performanceLevel:
+                    description: ESSD 性能等级：PL0/PL1/PL2/PL3
+                    type: string
+                  size:
+                    format: int32
+                    type: integer
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 资源标签：会同步到 Upjet Instance.tags
+                type: object
+              vSwitchId:
+                description: 交换机（子网）ID（必填，除非你支持经典网络）
+                type: string
+              volumeTags:
+                additionalProperties:
+                  type: string
+                description: 写入到磁盘设备的标签（Upjet Instance.volume_tags）
+                type: object
+            required:
+            - instanceType
+            - regionId
+            - vSwitchId
+            type: object
+          status:
+            properties:
+              addresses:
+                description: 标准 CAPI Machine 的地址字段
+                items:
+                  description: MachineAddress contains information for the node's
+                    address.
+                  properties:
+                    address:
+                      description: The machine address.
+                      type: string
+                    type:
+                      description: Machine address type, one of Hostname, ExternalIP,
+                        InternalIP, ExternalDNS or InternalDNS.
+                      type: string
+                  required:
+                  - address
+                  - type
+                  type: object
+                type: array
+              conditions:
+                description: 就绪条件等（可按需扩展更多自定义条件）
+                items:
+                  description: Condition defines an observation of a Cluster API resource
+                    operational state.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        Last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed. If that is not known, then using the time when
+                        the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A human readable message indicating details about the transition.
+                        This field may be empty.
+                      type: string
+                    reason:
+                      description: |-
+                        The reason for the condition's last transition in CamelCase.
+                        The specific API may choose whether or not this field is considered a guaranteed API.
+                        This field may not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity provides an explicit classification of Reason code, so the users or machines can immediately
+                        understand the current situation and act accordingly.
+                        The Severity field MUST be set only when Status=False.
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: |-
+                        Type of condition in CamelCase or in foo.example.com/CamelCase.
+                        Many .condition.type values are consistent across resources like Available, but because arbitrary conditions
+                        can be useful (see .node.status.conditions), the ability to deconflict is important.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - status
+                  - type
+                  type: object
+                type: array
+              providerID:
+                description: 一般把 ProviderID 也写到 status，便于观测
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

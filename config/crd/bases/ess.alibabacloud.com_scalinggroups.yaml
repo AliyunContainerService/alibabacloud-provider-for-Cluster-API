@@ -1,0 +1,727 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: scalinggroups.ess.alibabacloud.com
+spec:
+  group: ess.alibabacloud.com
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: ScalingGroup
+    listKind: ScalingGroupList
+    plural: scalinggroups
+    singular: scalinggroup
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ScalingGroup is the Schema for the ScalingGroups API. Provides
+          a ESS scaling group resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ScalingGroupSpec defines the desired state of ScalingGroup
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  dbInstanceIds:
+                    description: If an RDS instance is specified in the scaling group,
+                      the scaling group automatically attaches the Intranet IP addresses
+                      of its ECS instances to the RDS access whitelist.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  defaultCooldown:
+                    description: 'Default cool-down time (in seconds) of the scaling
+                      group. Value range: [0, 86400]. The default value is 300s.'
+                    type: number
+                  desiredCapacity:
+                    description: 'Expected number of ECS instances in the scaling
+                      group. Value range: [min_size, max_size].'
+                    type: number
+                  groupDeletionProtection:
+                    description: 'Specifies whether the scaling group deletion protection
+                      is enabled. true or false, Default value: false.'
+                    type: boolean
+                  groupType:
+                    description: 'Resource type within scaling group. Optional values:
+                      ECS, ECI. Default to ECS.'
+                    type: string
+                  healthCheckType:
+                    description: 'Resource type within scaling group. Optional values:
+                      ECS, NONE. Default to ECS.'
+                    type: string
+                  launchTemplateId:
+                    description: Instance launch template ID, scaling group obtains
+                      launch configuration from instance launch template, see Launch
+                      Template. Creating scaling group from launch template enable
+                      group automatically.
+                    type: string
+                  launchTemplateOverride:
+                    description: The details of the instance types that are specified
+                      by using the Extend Instance Type of Launch Template feature..  See
+                      launch_template_override below for details.
+                    items:
+                      properties:
+                        instanceType:
+                          description: The instance type in launchTemplateOverride.
+                          type: string
+                        spotPriceLimit:
+                          description: The maximum bid price of instance type in launchTemplateOverride.
+                          type: number
+                        weightedCapacity:
+                          description: The weight of the instance type in launchTemplateOverride.
+                          type: number
+                      type: object
+                    type: array
+                  launchTemplateVersion:
+                    description: 'The version number of the launch template. Valid
+                      values are the version number, Latest, or Default, Default value:
+                      Default.'
+                    type: string
+                  loadbalancerIds:
+                    description: If a Server Load Balancer instance is specified in
+                      the scaling group, the scaling group automatically attaches
+                      its ECS instances to the Server Load Balancer instance.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  maxSize:
+                    description: |-
+                      Maximum number of ECS instances in the scaling group. Value range: [0, 2000].
+                      NOTE: From version 1.204.1, max_size can be set to 2000.
+                    type: number
+                  minSize:
+                    description: |-
+                      Minimum number of ECS instances in the scaling group. Value range: [0, 2000].
+                      NOTE: From version 1.204.1, min_size can be set to 2000.
+                    type: number
+                  multiAzPolicy:
+                    description: Multi-AZ scaling group ECS instance expansion and
+                      contraction strategy. PRIORITY, BALANCE or COST_OPTIMIZED(Available
+                      since v1.54.0).
+                    type: string
+                  onDemandBaseCapacity:
+                    description: The minimum amount of the Auto Scaling group's capacity
+                      that must be fulfilled by On-Demand Instances. This base portion
+                      is provisioned first as your group scales.
+                    type: number
+                  onDemandPercentageAboveBaseCapacity:
+                    description: Controls the percentages of On-Demand Instances and
+                      Spot Instances for your additional capacity beyond OnDemandBaseCapacity.
+                    type: number
+                  protectedInstances:
+                    description: Set or unset instances within group into protected
+                      status.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  removalPolicies:
+                    description: 'RemovalPolicy is used to select the ECS instances
+                      you want to remove from the scaling group when multiple candidates
+                      for removal exist. Optional values:'
+                    items:
+                      type: string
+                    type: array
+                  scalingGroupName:
+                    description: Name shown for the scaling group, which must contain
+                      2-64 characters (English or Chinese), starting with numbers,
+                      English letters or Chinese characters, and can contain numbers,
+                      underscores _, hyphens -, and decimal points .. If this parameter
+                      is not specified, the default value is ScalingGroupId.
+                    type: string
+                  spotInstancePools:
+                    description: The number of Spot pools to use to allocate your
+                      Spot capacity. The Spot pools is composed of instance types
+                      of lowest price.
+                    type: number
+                  spotInstanceRemedy:
+                    description: Whether to replace spot instances with newly created
+                      spot/onDemand instance when receive a spot recycling message.
+                    type: boolean
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vswitchId:
+                    description: (Deprecated) It has been deprecated from version
+                      1.7.1 and new field 'vswitch_ids' replaces it.
+                    type: string
+                  vswitchIds:
+                    description: List of virtual switch IDs in which the ecs instances
+                      to be launched.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  dbInstanceIds:
+                    description: If an RDS instance is specified in the scaling group,
+                      the scaling group automatically attaches the Intranet IP addresses
+                      of its ECS instances to the RDS access whitelist.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  defaultCooldown:
+                    description: 'Default cool-down time (in seconds) of the scaling
+                      group. Value range: [0, 86400]. The default value is 300s.'
+                    type: number
+                  desiredCapacity:
+                    description: 'Expected number of ECS instances in the scaling
+                      group. Value range: [min_size, max_size].'
+                    type: number
+                  groupDeletionProtection:
+                    description: 'Specifies whether the scaling group deletion protection
+                      is enabled. true or false, Default value: false.'
+                    type: boolean
+                  groupType:
+                    description: 'Resource type within scaling group. Optional values:
+                      ECS, ECI. Default to ECS.'
+                    type: string
+                  healthCheckType:
+                    description: 'Resource type within scaling group. Optional values:
+                      ECS, NONE. Default to ECS.'
+                    type: string
+                  launchTemplateId:
+                    description: Instance launch template ID, scaling group obtains
+                      launch configuration from instance launch template, see Launch
+                      Template. Creating scaling group from launch template enable
+                      group automatically.
+                    type: string
+                  launchTemplateOverride:
+                    description: The details of the instance types that are specified
+                      by using the Extend Instance Type of Launch Template feature..  See
+                      launch_template_override below for details.
+                    items:
+                      properties:
+                        instanceType:
+                          description: The instance type in launchTemplateOverride.
+                          type: string
+                        spotPriceLimit:
+                          description: The maximum bid price of instance type in launchTemplateOverride.
+                          type: number
+                        weightedCapacity:
+                          description: The weight of the instance type in launchTemplateOverride.
+                          type: number
+                      type: object
+                    type: array
+                  launchTemplateVersion:
+                    description: 'The version number of the launch template. Valid
+                      values are the version number, Latest, or Default, Default value:
+                      Default.'
+                    type: string
+                  loadbalancerIds:
+                    description: If a Server Load Balancer instance is specified in
+                      the scaling group, the scaling group automatically attaches
+                      its ECS instances to the Server Load Balancer instance.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  maxSize:
+                    description: |-
+                      Maximum number of ECS instances in the scaling group. Value range: [0, 2000].
+                      NOTE: From version 1.204.1, max_size can be set to 2000.
+                    type: number
+                  minSize:
+                    description: |-
+                      Minimum number of ECS instances in the scaling group. Value range: [0, 2000].
+                      NOTE: From version 1.204.1, min_size can be set to 2000.
+                    type: number
+                  multiAzPolicy:
+                    description: Multi-AZ scaling group ECS instance expansion and
+                      contraction strategy. PRIORITY, BALANCE or COST_OPTIMIZED(Available
+                      since v1.54.0).
+                    type: string
+                  onDemandBaseCapacity:
+                    description: The minimum amount of the Auto Scaling group's capacity
+                      that must be fulfilled by On-Demand Instances. This base portion
+                      is provisioned first as your group scales.
+                    type: number
+                  onDemandPercentageAboveBaseCapacity:
+                    description: Controls the percentages of On-Demand Instances and
+                      Spot Instances for your additional capacity beyond OnDemandBaseCapacity.
+                    type: number
+                  protectedInstances:
+                    description: Set or unset instances within group into protected
+                      status.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  removalPolicies:
+                    description: 'RemovalPolicy is used to select the ECS instances
+                      you want to remove from the scaling group when multiple candidates
+                      for removal exist. Optional values:'
+                    items:
+                      type: string
+                    type: array
+                  scalingGroupName:
+                    description: Name shown for the scaling group, which must contain
+                      2-64 characters (English or Chinese), starting with numbers,
+                      English letters or Chinese characters, and can contain numbers,
+                      underscores _, hyphens -, and decimal points .. If this parameter
+                      is not specified, the default value is ScalingGroupId.
+                    type: string
+                  spotInstancePools:
+                    description: The number of Spot pools to use to allocate your
+                      Spot capacity. The Spot pools is composed of instance types
+                      of lowest price.
+                    type: number
+                  spotInstanceRemedy:
+                    description: Whether to replace spot instances with newly created
+                      spot/onDemand instance when receive a spot recycling message.
+                    type: boolean
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vswitchId:
+                    description: (Deprecated) It has been deprecated from version
+                      1.7.1 and new field 'vswitch_ids' replaces it.
+                    type: string
+                  vswitchIds:
+                    description: List of virtual switch IDs in which the ecs instances
+                      to be launched.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.maxSize is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.maxSize)
+                || (has(self.initProvider) && has(self.initProvider.maxSize))'
+            - message: spec.forProvider.minSize is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.minSize)
+                || (has(self.initProvider) && has(self.initProvider.minSize))'
+          status:
+            description: ScalingGroupStatus defines the observed state of ScalingGroup.
+            properties:
+              atProvider:
+                properties:
+                  dbInstanceIds:
+                    description: If an RDS instance is specified in the scaling group,
+                      the scaling group automatically attaches the Intranet IP addresses
+                      of its ECS instances to the RDS access whitelist.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  defaultCooldown:
+                    description: 'Default cool-down time (in seconds) of the scaling
+                      group. Value range: [0, 86400]. The default value is 300s.'
+                    type: number
+                  desiredCapacity:
+                    description: 'Expected number of ECS instances in the scaling
+                      group. Value range: [min_size, max_size].'
+                    type: number
+                  groupDeletionProtection:
+                    description: 'Specifies whether the scaling group deletion protection
+                      is enabled. true or false, Default value: false.'
+                    type: boolean
+                  groupType:
+                    description: 'Resource type within scaling group. Optional values:
+                      ECS, ECI. Default to ECS.'
+                    type: string
+                  healthCheckType:
+                    description: 'Resource type within scaling group. Optional values:
+                      ECS, NONE. Default to ECS.'
+                    type: string
+                  id:
+                    description: The scaling group ID.
+                    type: string
+                  launchTemplateId:
+                    description: Instance launch template ID, scaling group obtains
+                      launch configuration from instance launch template, see Launch
+                      Template. Creating scaling group from launch template enable
+                      group automatically.
+                    type: string
+                  launchTemplateOverride:
+                    description: The details of the instance types that are specified
+                      by using the Extend Instance Type of Launch Template feature..  See
+                      launch_template_override below for details.
+                    items:
+                      properties:
+                        instanceType:
+                          description: The instance type in launchTemplateOverride.
+                          type: string
+                        spotPriceLimit:
+                          description: The maximum bid price of instance type in launchTemplateOverride.
+                          type: number
+                        weightedCapacity:
+                          description: The weight of the instance type in launchTemplateOverride.
+                          type: number
+                      type: object
+                    type: array
+                  launchTemplateVersion:
+                    description: 'The version number of the launch template. Valid
+                      values are the version number, Latest, or Default, Default value:
+                      Default.'
+                    type: string
+                  loadbalancerIds:
+                    description: If a Server Load Balancer instance is specified in
+                      the scaling group, the scaling group automatically attaches
+                      its ECS instances to the Server Load Balancer instance.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  maxSize:
+                    description: |-
+                      Maximum number of ECS instances in the scaling group. Value range: [0, 2000].
+                      NOTE: From version 1.204.1, max_size can be set to 2000.
+                    type: number
+                  minSize:
+                    description: |-
+                      Minimum number of ECS instances in the scaling group. Value range: [0, 2000].
+                      NOTE: From version 1.204.1, min_size can be set to 2000.
+                    type: number
+                  multiAzPolicy:
+                    description: Multi-AZ scaling group ECS instance expansion and
+                      contraction strategy. PRIORITY, BALANCE or COST_OPTIMIZED(Available
+                      since v1.54.0).
+                    type: string
+                  onDemandBaseCapacity:
+                    description: The minimum amount of the Auto Scaling group's capacity
+                      that must be fulfilled by On-Demand Instances. This base portion
+                      is provisioned first as your group scales.
+                    type: number
+                  onDemandPercentageAboveBaseCapacity:
+                    description: Controls the percentages of On-Demand Instances and
+                      Spot Instances for your additional capacity beyond OnDemandBaseCapacity.
+                    type: number
+                  protectedInstances:
+                    description: Set or unset instances within group into protected
+                      status.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  removalPolicies:
+                    description: 'RemovalPolicy is used to select the ECS instances
+                      you want to remove from the scaling group when multiple candidates
+                      for removal exist. Optional values:'
+                    items:
+                      type: string
+                    type: array
+                  scalingGroupName:
+                    description: Name shown for the scaling group, which must contain
+                      2-64 characters (English or Chinese), starting with numbers,
+                      English letters or Chinese characters, and can contain numbers,
+                      underscores _, hyphens -, and decimal points .. If this parameter
+                      is not specified, the default value is ScalingGroupId.
+                    type: string
+                  spotInstancePools:
+                    description: The number of Spot pools to use to allocate your
+                      Spot capacity. The Spot pools is composed of instance types
+                      of lowest price.
+                    type: number
+                  spotInstanceRemedy:
+                    description: Whether to replace spot instances with newly created
+                      spot/onDemand instance when receive a spot recycling message.
+                    type: boolean
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vswitchId:
+                    description: (Deprecated) It has been deprecated from version
+                      1.7.1 and new field 'vswitch_ids' replaces it.
+                    type: string
+                  vswitchIds:
+                    description: List of virtual switch IDs in which the ecs instances
+                      to be launched.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
